@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描-->
+    <context:component-scan base-package="com.zkc"/>
+
+    <!--视图解析器 视图解析器对象 (视图解析器类名是固定的) 想跳转页面就会用视图解析器帮你跳转指定页面-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--文件所在目录-->
+        <property name="prefix" value="/pages/"/>
+        <!--文件后缀名-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--<mvc:annotation-driven/>-->
+    <!-- 设置静态资源不过滤 -->
+    <mvc:resources location="/css/" mapping="/css/**"/> <!-- 样式 -->
+    <mvc:resources location="/images/" mapping="/images/**"/> <!-- 图片 -->
+    <mvc:resources location="/script/" mapping="/script/**"/> <!-- javascript -->
+
+    <!--配置文件解析器对象  名字不能改只能叫multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置最大上传文件大小 单位字节 这里设置10M-->
+        <property name="maxUploadSize" value="104857600"/>
+    </bean>
+    <!--配置异常处理器-->
+    <bean id="sysExceptionResolver" class="com.zkc.exception.SysExceptionResolver"></bean>
+
+    <!--开启springmvc框架注解支持-->
+    <mvc:annotation-driven/>
+
+</beans>
